@@ -1,5 +1,5 @@
-import {Entity,PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
-import {Handyman,Client} from './user'
+import {Entity,PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
+import {Handyman,Client, User} from './user'
 
 @Entity()
 export class Task {
@@ -12,10 +12,12 @@ export class Task {
     @Column({nullable: false,type:'boolean',default:false})
     isFinish: boolean
 
-    @ManyToOne(()=>Handyman, handyman=> handyman.taskTaken )
+    @ManyToOne(() => Handyman, handyman=> handyman.tasks )
+    @JoinColumn({name:'handyman_user_id'})
     handyman: Handyman
 
-    @ManyToOne(()=>Client, clients=> clients.taskTaken )
+    @ManyToOne(() => Client, client=> client.tasks )
+    @JoinColumn({name:'client_user_id'})
     client: Client
 
 }

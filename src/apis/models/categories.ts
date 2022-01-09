@@ -1,4 +1,4 @@
-import {Entity,PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany} from "typeorm";
+import {Entity,PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany,JoinColumn} from "typeorm";
 import {Handyman} from './user'
 
 @Entity()

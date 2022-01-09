@@ -1,6 +1,8 @@
-import {Entity, PrimaryColumn, Column, OneToOne,JoinColumn, OneToMany,ManyToMany,JoinTable} from "typeorm";
+import {Entity, PrimaryColumn, Column, OneToOne,JoinColumn, OneToMany,ManyToMany,JoinTable, PrimaryGeneratedColumn} from "typeorm";
 import {Categories} from './categories'
 import { Task } from "./task";
+import { Message } from "./messages";
+
 export enum UserRole {
     CLIENT = "client",
     HANDYMAN = "handyman",
@@ -9,7 +11,7 @@ export enum UserRole {
 @Entity()
 export class User {
     @PrimaryColumn({nullable: false,unique:true,type: 'varchar', length: 200})
-    firebaseId: string;
+    id: string;
 
     @Column({nullable: false, type: 'varchar', length: 200})
     username: string;
@@ -17,7 +19,7 @@ export class User {
     @Column({nullable: false, type: 'text'})
     profilePic: string;
 
-    @Column({ nullable: false,unique: true, type: 'varchar', length: 200})
+    @Column({ nullable: false,unique: true, type: 'varchar', length: 200 })
     email: string;
 
     @Column({
@@ -27,16 +29,41 @@ export class User {
         nullable: false
     })
     isHandyman: UserRole;
+
+    @OneToOne(() => Client, client => client.userId ,{onDelete:'CASCADE',onUpdate:'CASCADE'}) // specify inverse side as a second parameter
+    @JoinColumn()
+    client: Client;
+
+    @OneToOne(() => Handyman, handyman => handyman.userId,{onDelete:'CASCADE',onUpdate:'CASCADE'}) // specify inverse side as a second parameter
+    @JoinColumn()
+    handyman: Handyman;
+
+    @ManyToMany(() => Message, message=>message.sender )
+    @JoinTable({
+        name: "conversation_of_users", // table name for the junction table of this relation
+        joinColumn: {
+            name: "message",
+            referencedColumnName: "id"
+        },
+        inverseJoinColumn: {
+            name: "user",
+            referencedColumnName: "id"
+        }
+    })
+    messages: Message[];
 }
 
 
 @Entity()
 export class Handyman {
-    @OneToOne(() => User,{primary:true,cascade:true})
-    @JoinColumn()
-    id: User;
+    @PrimaryGeneratedColumn({name: 'id'})
+    id : number
 
-    @ManyToMany(() => Categories, catagories=>catagories.handymans ,{onDelete:'CASCADE',cascade: true})
+    @OneToOne(() => User,{cascade:true})
+    @JoinColumn({name: 'userId' })
+    userId: User;
+
+    @ManyToMany(() => Categories, catagories=>catagories.handymans )
     @JoinTable({
         name: "Handyman_in_which_category", // table name for the junction table of this relation
         joinColumn: {
@@ -50,18 +77,19 @@ export class Handyman {
     })
     professionals: Categories[];
 
-    @OneToMany(() => Task, task => task.handyman,{onDelete:'CASCADE',cascade: true})
-    taskTaken: Task[];
-
-    
+    @OneToMany(() => Task, task => task.handyman,{onDelete:'CASCADE',onUpdate: 'CASCADE'})
+    tasks: Task[];
 }
 
 @Entity()
 export class Client {
-    @OneToOne(() => User,{primary:true,cascade:true})
-    @JoinColumn()
-    id: User;
+    @PrimaryGeneratedColumn({name: 'id'})
+    id : number
 
-    @OneToMany(() => Task, task => task.client,{onDelete:'CASCADE',cascade: true})
-    taskTaken: Task[]; 
+    @OneToOne(() => User,{cascade:true})
+    @JoinColumn({name: 'userId' })
+    userId: User;
+
+    @OneToMany(() => Task, task => task.client,{onDelete:'CASCADE',onUpdate: 'CASCADE'})
+    tasks: Task[]; 
 }
