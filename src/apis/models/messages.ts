@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { User } from './user'
 
 
@@ -8,10 +8,10 @@ export class Message {
     @PrimaryGeneratedColumn()
     id : number
 
-    @ManyToMany(()=>User, user=>user.messages)
+    @ManyToOne(()=> User, user=>user.sender)
     sender : User[]
 
-    @ManyToMany(()=>User, user=>user.messages)
+    @ManyToOne(()=> User, user=>user.receiver)
     receiver : User[]
 
     @Column({type:'text',nullable:false})
@@ -19,4 +19,5 @@ export class Message {
 
     @Column({type:'datetime', default: ()=>'CURRENT_TIMESTAMP'})
     createdAt : Date 
+
 }

@@ -1,6 +1,7 @@
 import {Entity,PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
-import {Handyman,Client, User} from './user'
-
+import { User} from './user'
+import { Client } from "./client";
+import { Handyman } from "./handyman";
 @Entity()
 export class Task {
     @PrimaryGeneratedColumn()
@@ -19,5 +20,8 @@ export class Task {
     @ManyToOne(() => Client, client=> client.tasks )
     @JoinColumn({name:'client_user_id'})
     client: Client
+
+    @Column({nullable: true,type:'int', width:1})
+    rate : number
 
 }

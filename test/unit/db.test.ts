@@ -1,6 +1,8 @@
 import {Categories} from '../../src/apis/models/categories'
-import {User,Client,Handyman, UserRole} from '../../src/apis/models/user'
+import {User, UserRole} from '../../src/apis/models/user'
 import {Task} from '../../src/apis/models/task'
+import {Client} from '../../src/apis/models/client'
+import {Handyman} from '../../src/apis/models/handyman'
 import {connection} from '../../src/settings/db'
 import { classArray } from "../../src/apis/models";
 import {createConnection, createQueryBuilder, getConnection, getRepository} from 'typeorm'
@@ -118,10 +120,10 @@ describe('Task-model',()=>{
         task.handyman = handyman!
         task.isFinish = true
         task.detial = 'finished asssignment'
-
+        task.rate = 3
         const res = await taskRepo.save(task)
         console.log(res);
-        console.log(task );
+        console.log(task);
         const createdData =  await getRepository(Task).findOne({where:{id : task.id}})
         expect(task).toMatchObject(createdData!)
     })
