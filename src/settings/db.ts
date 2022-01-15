@@ -11,8 +11,8 @@ export const connection = connectionManager.create({
     password: `${process.env.MYSQL_PASSWORD}`,
     database: "fyp_test",
     entities: [...classArray],
-    synchronize: true,
-    logging: true,
+    // synchronize: true,
+    // logging: true,
 })
 
 export const initDB = async()=>{

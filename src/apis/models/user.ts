@@ -19,7 +19,7 @@ export class User {
     @Column({nullable: false, type: 'varchar', length: 200})
     username: string;
 
-    @Column({nullable: false, type: 'text'})
+    @Column({nullable: true, type: 'text'})
     profilePic: string;
 
     @Column({ nullable: false,unique: true, type: 'varchar', length: 200 })

@@ -1,8 +1,9 @@
-import {Request,Response,NextFunction} from 'express'
+import e, {Request,Response,NextFunction} from 'express'
 import firebaseAdmin from 'firebase-admin'
 import {User,UserRole} from '../apis/models/user'
 import {getRepository} from 'typeorm'
-interface AuthReturn {
+import { connection } from '../settings/db'
+export interface AuthReturn {
     user : string,
     idToken: string
 }
@@ -12,8 +13,9 @@ export const firebaseAuth = async (req:Request<{},{},{},AuthReturn>, res:Respons
     if (user === undefined) return res.status(401).send(' user is undefined ');
     try {
         const userJ : object = JSON.parse(user);
-        await firebaseAdmin.auth().verifyIdToken(idToken);
+        const userInfoFromGoogle = await firebaseAdmin.auth().verifyIdToken(idToken);
         res.locals.user  = userJ;
+        res.locals.user_g = userInfoFromGoogle
         next();
     } catch (e) {
         res.status(401).send('user is not vertified, please signUp a SSO');
@@ -21,7 +23,7 @@ export const firebaseAuth = async (req:Request<{},{},{},AuthReturn>, res:Respons
 };
 
 export const roleAuth = async (req:Request, res:Response, next:NextFunction) => {
-    const userRepo = getRepository(User)
+    const userRepo = connection.getRepository(User)
     const user = await userRepo.findOne({id:res.locals.user.uid})
     if(!user) throw new Error('user is not defined')
     if (user?.isHandyman === UserRole.CLIENT){
@@ -36,13 +38,13 @@ export const firebaseAuthSocket = async (idToken:string) => {
     try {
         const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken);
         return decodedToken.uid
-    } catch (e) {
-        throw new Error('user is not vertified, please signUp a SSO');
+    } catch (e:any) {
+        throw new Error(`${e}`);
     }
 };
 
 export const roleAuthSocket = async (decodedToken:string) => {
-    const userRepo = getRepository(User)
+    const userRepo = connection.getRepository(User)
     const user = await userRepo.findOne({id:decodedToken})
     if(!user) throw new Error('user is not defined')
     if (user?.isHandyman === UserRole.CLIENT){

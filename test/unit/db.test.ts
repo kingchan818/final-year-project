@@ -3,7 +3,6 @@ import {User, UserRole} from '../../src/apis/models/user'
 import {Task} from '../../src/apis/models/task'
 import {Client} from '../../src/apis/models/client'
 import {Handyman} from '../../src/apis/models/handyman'
-import {connection} from '../../src/settings/db'
 import { classArray } from "../../src/apis/models";
 import {createConnection, createQueryBuilder, getConnection, getRepository} from 'typeorm'
 import * as dotenv from 'dotenv'
