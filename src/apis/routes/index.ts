@@ -1,10 +1,11 @@
 import {Application} from 'express'
 import handymanRoute from './handyman'
-import UserRoute from './user'
-
+import userRoute from './user'
+import messageRoute from './message'
 export const main = (app:Application)=>{
     app.use('/handyman',handymanRoute)
-    app.use('/user',UserRoute)
+    app.use('/user',userRoute)
+    app.use('/message',messageRoute)
 }
 
 

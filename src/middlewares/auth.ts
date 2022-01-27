@@ -8,7 +8,9 @@ export interface AuthReturn {
     idToken: string
 }
 
-export const firebaseAuth = async (req:Request<{},{},{},AuthReturn>, res:Response, next:NextFunction) => {
+
+
+export const firebaseAuth = async (req:Request<{},{},{},any>, res:Response, next:NextFunction) => {
     const {user,idToken} = req.query
     if (user === undefined) return res.status(401).send(' user is undefined ');
     try {
@@ -16,6 +18,7 @@ export const firebaseAuth = async (req:Request<{},{},{},AuthReturn>, res:Respons
         const userInfoFromGoogle = await firebaseAdmin.auth().verifyIdToken(idToken);
         res.locals.user  = userJ;
         res.locals.user_g = userInfoFromGoogle
+        res.locals.id_token = idToken
         next();
     } catch (e) {
         res.status(401).send('user is not vertified, please signUp a SSO');

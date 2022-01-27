@@ -1,7 +1,7 @@
 import {Entity, PrimaryColumn, Column, OneToOne,JoinColumn, OneToMany,ManyToMany,JoinTable, PrimaryGeneratedColumn} from "typeorm";
 import {Categories} from './categories'
 import { Task } from "./task";
-import { Message } from "./messages";
+import { ChatRoom } from "./messages";
 import { Client } from "./client";
 import { Handyman } from "./handyman";
 
@@ -41,11 +41,11 @@ export class User {
     @JoinColumn()
     handyman: Handyman;
 
-    @OneToMany(() => Message, message=>message.sender )
-    sender: Message[];
+    @OneToMany(() => ChatRoom, chatRoom => chatRoom.client )
+    clientChat: ChatRoom[];
 
-    @OneToMany(()=>User, user=>user.sender)
-    receiver : User[]
+    @OneToMany(() => ChatRoom, chatRoom => chatRoom.client )
+    handymanChat: ChatRoom[];
 }
 
 

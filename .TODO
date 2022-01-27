@@ -1,0 +1,12 @@
+// REMEMBER hanymanId from chatRoom is the userId defined in the user role
+
+
+client api
+//TODO: create client
+//TODO: show all the handyman by category (api)
+//TODO: show all payments/done task of the spacified client (api)
+//TODO: comment the task rating
+
+handyman api
+// create handyman if is handyman 
+// show task finished with client

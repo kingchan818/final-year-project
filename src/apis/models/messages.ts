@@ -4,20 +4,16 @@ import { User } from './user'
 
 
 @Entity()
-export class Message {
+export class ChatRoom {
     @PrimaryGeneratedColumn()
     id : number
 
-    @ManyToOne(()=> User, user=>user.sender)
-    sender : User[]
+    @ManyToOne(()=> User, user=>user.clientChat)
+    client : User
 
-    @ManyToOne(()=> User, user=>user.receiver)
-    receiver : User[]
-
-    @Column({type:'text',nullable:false})
-    detial : string
+    @ManyToOne(()=> User, user=>user.handymanChat)
+    handyman : User
 
     @Column({type:'datetime', default: ()=>'CURRENT_TIMESTAMP'})
     createdAt : Date 
-
 }
