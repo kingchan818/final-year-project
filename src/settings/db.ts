@@ -13,6 +13,7 @@ export const connection = connectionManager.create({
     entities: [...classArray],
     synchronize: true,
     logging: true,
+    // dropSchema : true
 })
 
 export const initDB = async()=>{

@@ -16,7 +16,7 @@ export class User {
     @PrimaryColumn({nullable: false,unique:true,type: 'varchar', length: 200})
     id: string;
 
-    @Column({nullable: false, type: 'varchar', length: 200})
+    @Column({nullable: false, type: 'varchar', length: 200, default : ''})
     username: string;
 
     @Column({nullable: true, type: 'text'})

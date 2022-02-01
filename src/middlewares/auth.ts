@@ -16,6 +16,7 @@ export const firebaseAuth = async (req:Request<{},{},{},any>, res:Response, next
     try {
         const userJ : object = JSON.parse(user);
         const userInfoFromGoogle = await firebaseAdmin.auth().verifyIdToken(idToken);
+        console.log('userInfoFromGoogle',userInfoFromGoogle)
         res.locals.user  = userJ;
         res.locals.user_g = userInfoFromGoogle
         res.locals.id_token = idToken

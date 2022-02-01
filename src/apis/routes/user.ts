@@ -5,16 +5,17 @@ const router = express.Router()
 
 
 
-router.post('/vertify',firebaseAuth, async(req:Request<{},{},{},AuthReturn>,res:Response)=>{
-    const newUser = new User()
-    const name = res.locals.user_g.name
-    const user = await newUser.vertifyAndCreateUser(res.locals.user,name)
-    res.send(user).status(200)
+router.post('/vertify',firebaseAuth, async(req:Request<{},{},{role? : string},{}>,res:Response)=>{
+    res.send('user vertified')
 })
 
-
-
-
+router.post('/createuser',firebaseAuth,async(req:Request,res:Response)=>{
+    let name = res.locals.user.username
+    const role = req.body?.role 
+    const newUser = new User()
+    const user = await newUser.vertifyAndCreateUser(res.locals.user,name,role)
+    return res.send(user).status(200)
+})
 
 
 export default router   
