@@ -16,11 +16,11 @@ export class Handyman {
     @JoinTable({
         name: "Handyman_in_which_category", 
         joinColumn: {
-            name: "category",
+            name: "handyman",
             referencedColumnName: "id"
         },
         inverseJoinColumn: {
-            name: "handyman",
+            name: "category",
             referencedColumnName: "id"
         }
     })

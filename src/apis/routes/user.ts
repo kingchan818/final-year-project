@@ -10,8 +10,9 @@ router.post('/vertify',firebaseAuth, async(req:Request<{},{},{role? : string},{}
 })
 
 router.post('/createuser',firebaseAuth,async(req:Request,res:Response)=>{
-    let name = res.locals.user.username
-    const role = req.body?.role 
+    const name = res.locals.user.username
+    const role = res.locals.user.role
+    console.log('createROle',role)
     const newUser = new User()
     const user = await newUser.vertifyAndCreateUser(res.locals.user,name,role)
     return res.send(user).status(200)

@@ -34,11 +34,9 @@ export class User {
     isHandyman: UserRole;
 
     @OneToOne(() => Client, client => client.userId ,{onDelete:'CASCADE',onUpdate:'CASCADE'}) 
-    @JoinColumn()
     client: Client;
 
     @OneToOne(() => Handyman, handyman => handyman.userId,{onDelete:'CASCADE',onUpdate:'CASCADE'}) 
-    @JoinColumn()
     handyman: Handyman;
 
     @OneToMany(() => ChatRoom, chatRoom => chatRoom.client )
