@@ -2,6 +2,7 @@ import {Application, Request, Response, NextFunction} from 'express'
 import handymanRoute from './handyman'
 import userRoute from './user'
 import messageRoute from './message'
+import categories from './categories';
 export const main = (app:Application)=>{
     app.use('/handyman',handymanRoute)
     app.use('/user',userRoute)
@@ -10,6 +11,7 @@ export const main = (app:Application)=>{
         res.send('Hello World')
         next()
     })
+    app.use('/category',categories)
 }
 
 

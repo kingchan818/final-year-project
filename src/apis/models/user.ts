@@ -33,7 +33,7 @@ export class User {
     })
     isHandyman: UserRole;
 
-    @OneToOne(() => Client, client => client.userId ,{onDelete:'CASCADE',onUpdate:'CASCADE'}) 
+    @OneToOne(() => Client, client => client.userId ,{onDelete:'CASCADE',onUpdate:'CASCADE'})
     client: Client;
 
     @OneToOne(() => Handyman, handyman => handyman.userId,{onDelete:'CASCADE',onUpdate:'CASCADE'}) 

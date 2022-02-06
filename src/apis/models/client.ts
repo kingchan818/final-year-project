@@ -8,7 +8,7 @@ export class Client {
     id : number
 
     @OneToOne(() => User,{cascade:true})
-    @JoinColumn({name: 'userId' })
+    @JoinColumn({name: 'uid' })
     userId: User;
 
     @OneToMany(() => Task, task => task.client,{onDelete:'CASCADE',onUpdate: 'CASCADE'})

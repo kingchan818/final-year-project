@@ -9,7 +9,7 @@ export class Handyman {
     id : number
 
     @OneToOne(() => User,{cascade:true})
-    @JoinColumn({name: 'userId' })
+    @JoinColumn({name: 'uid' })
     userId: User;
 
     @ManyToMany(() => Categories, catagories=>catagories.handymans )

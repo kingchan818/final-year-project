@@ -19,7 +19,7 @@ router.post('/createchat',firebaseAuth,async(req:Request,res:Response) => {
     const handyman = await userRepo.findOne({
         id : hanymanId
     })
-
+    console.log(handyman , client)
     
     const foundRoom =await chatRoomRepo.findOne({
         relations : ['client', 'handyman'],
@@ -35,7 +35,8 @@ router.post('/createchat',firebaseAuth,async(req:Request,res:Response) => {
             newChatRoom.client = client
             const room = await connection.manager.save(newChatRoom)
             console.log('should return room enentity',room)
-            return res.json(room.id)
+            console.log('should return room id',room.id)
+            return res.status(200).json(room.id)
         }
         throw new Error('wrong relationship')
     }

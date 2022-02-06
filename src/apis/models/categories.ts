@@ -10,6 +10,9 @@ export class Categories {
     @Column({nullable: false, type:"varchar", length: 200, unique: true})
     detial: string;
 
+    @Column({nullable: false, type:"text"})
+    img: string;
+
     @ManyToMany(()=>Handyman, handyman=> handyman.professionals)
     handymans: Handyman[]
 }
