@@ -3,6 +3,8 @@ import {Categories} from '../models/categories'
 import {connection} from '../../settings/db'
 import { InsertResult, Entity ,DeepPartial} from 'typeorm';
 import {Handyman} from '../models/handyman'
+import {Task} from '../models/task'
+import {Client} from '../models/client'
 export class HandymanController {
     constructor(){
         this.findHandyman = this.findHandyman.bind(this)
@@ -44,4 +46,23 @@ export class HandymanController {
             relations : ['handymans']
         })
     }
+    async finishedTask(userId:string,isFinished:any,rate:number,detial:string, handymanInfoId:string){
+        const clientRepo = connection.getRepository(Client)
+        const handymanRepo = connection.getRepository(Handyman)
+        const taskRepo = connection.getRepository(Task)
+        const client = await clientRepo.findOne({where : {userId : userId}})
+        const handyman = await handymanRepo.findOne({where : {userId : handymanInfoId}})
+        if(!client || !handyman){
+            throw new Error('Can not found the client or handyman')
+        }
+        const task = new Task()
+        task.client = client!
+        task.handyman = handyman!
+        task.isFinish = JSON.parse(isFinished!)
+        task.rate = rate!
+        task.detial = detial!
+        const result = await taskRepo.save(task)
+        return result        
+    }
 }
+

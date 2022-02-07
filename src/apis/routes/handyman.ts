@@ -13,7 +13,6 @@ router.post('/register',firebaseAuth,async (req:Request,res:Response)=>{
     res.send(handymans)
 })
 
-
 router.get('/findhandyman',async(req:Request,res:Response)=>{
     const handyman = new HandymanController();
     const handymans = await handyman.findHandyman()
@@ -37,6 +36,22 @@ router.get('/findhandyman/:category',async (req:Request<{category: string}>,res:
 
 router.get('/handyman',firebaseAuth,(req:Request<{},{},{},AuthReturn>,res:Response,next:NextFunction)=>{
     res.send('hellow world')
+})
+
+router.post('/finishtask',firebaseAuth,async (req:Request<{},{},{},{
+    isFinished : boolean,
+    rate:number,
+    detial:string,
+    handymanInfoId:string
+}>,res:Response,next:NextFunction)=>{
+    console.log('finish task triggered')
+    const user = res.locals.user
+    const {isFinished,rate,detial,handymanInfoId} =  req.query;
+    console.log(handymanInfoId)
+
+    const handyman = new HandymanController();
+    const result =   await handyman.finishedTask(user.uid,isFinished,rate,detial,handymanInfoId)
+    res.send(result)
 })
 
 
