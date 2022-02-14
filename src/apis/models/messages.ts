@@ -14,6 +14,9 @@ export class ChatRoom {
     @ManyToOne(()=> User, user=>user.handymanChat)
     handyman : User
 
+    @Column({type: "varchar", length: 255, nullable: false})
+    taskName : string
+
     @Column({type:'datetime', default: ()=>'CURRENT_TIMESTAMP'})
     createdAt : Date 
 }

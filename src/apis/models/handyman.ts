@@ -12,7 +12,7 @@ export class Handyman {
     @JoinColumn({name: 'uid' })
     userId: User;
 
-    @ManyToMany(() => Categories, catagories=>catagories.handymans )
+    @ManyToMany(() => Categories, catagories=>catagories.handymans)
     @JoinTable({
         name: "Handyman_in_which_category", 
         joinColumn: {
