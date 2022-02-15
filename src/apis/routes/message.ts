@@ -10,6 +10,7 @@ const router = express.Router()
 router.post('/createchat',firebaseAuth,async(req:Request,res:Response) => {
     const userId :string =req.query.clientid as string
     const hanymanId :string = req.query.handymanid as string
+    const taskName : string = req.query.taskName as string
     const chatRoomRepo = connection.getRepository(ChatRoom)
     const userRepo = connection.getRepository(User)
     console.log('handyman ids',hanymanId)
@@ -20,19 +21,21 @@ router.post('/createchat',firebaseAuth,async(req:Request,res:Response) => {
         id : hanymanId
     })
     console.log(handyman , client)
-    
+    console.log('taskNameasdasdasdasdasdasdas',taskName)
     const foundRoom =await chatRoomRepo.findOne({
         relations : ['client', 'handyman'],
         where : {
             client : client?.id,
-            handyman : handyman?.id
+            handyman : handyman?.id,
+            taskName : taskName,
         }
     })
-    if (!foundRoom) { 
+    if (!foundRoom) {
         if (client?.isHandyman === UserRole.CLIENT && handyman?.isHandyman === UserRole.HANDYMAN){
             const newChatRoom = new ChatRoom()
             newChatRoom.handyman = handyman
             newChatRoom.client = client
+            newChatRoom.taskName = taskName
             const room = await connection.manager.save(newChatRoom)
             console.log('should return room enentity',room)
             console.log('should return room id',room.id)

@@ -4,7 +4,8 @@ import {connection} from '../../settings/db'
 import {User, UserRole} from '../models/user'
 import { ClientController } from './client';
 import { HandymanController } from './handyman';
-
+import {Task} from '../models/task'
+import { Handyman } from '../models/handyman';
 
 interface UserReqInterface {
     uid:string, 
@@ -75,6 +76,64 @@ export default class UserController {
             this.updateUser(user,name)
             return found_user;
         }
+    }
+    public async getAllHandymanTasksByClientId  (clientUserId : string) {
+        const taskRepo = connection.getRepository(Task);
+        const userRepo = connection.getRepository(User);
+        const handymanRepo = connection.getRepository(Handyman);
+        const client = await userRepo.findOne({where: {id: clientUserId}});
+        const tasks = await taskRepo.find({
+            where: {
+                client : {
+                    userId : client,
+                },isFinish : true
+            },
+            select : ['id'],
+            relations : ['client','handyman']
+        })
+        const handymanRelatedTasks = await Promise.all(tasks.map(async (task) => {
+            const handyman = await handymanRepo.findOne({
+                where: {
+                    id : task.handyman.id,
+                },
+                relations : ['userId']
+            })
+            return handyman
+        
+        }))
+        return handymanRelatedTasks;
+    }
+
+    public async showWhichTasksChargedByHandyman (clientUserId : string, handymanUserId : string) {
+        const taskRepo = connection.getRepository(Task);
+        // const handymanRepo = connection.getRepository(Handyman);
+        const userRepo = connection.getRepository(User);
+
+        const client = await userRepo.findOne({where: {id: clientUserId}});
+        const handyman = await userRepo.findOne({where: {id: handymanUserId}});
+
+        // const chargedByHanyman = await handymanRepo.findOne({
+        //     where : {
+        //         userId : handyman,
+        //     }
+        // })
+        const tasks = await taskRepo.find({
+            where: {
+                handyman : {
+                    userId : handyman,
+                },client : {
+                    userId : client
+                },isFinish : true
+            },
+            select : ['id','detial','rate'],
+            relations : ['handyman','client']
+        })
+        const whichTaskChargedByHandyman = {
+            handyman : handyman,
+            client : client,
+            tasks : tasks
+        }
+        return whichTaskChargedByHandyman;
     }
 
 }

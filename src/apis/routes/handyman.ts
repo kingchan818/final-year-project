@@ -38,7 +38,7 @@ router.get('/handyman',firebaseAuth,(req:Request<{},{},{},AuthReturn>,res:Respon
     res.send('hellow world')
 })
 
-router.post('/finishtask',firebaseAuth,async (req:Request<{},{},{},{
+router.post('/finishtask',firebaseAuth, async (req:Request<{},{},{},{
     isFinished : boolean,
     rate:number,
     detial:string,

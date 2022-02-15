@@ -23,5 +23,4 @@ export class Task {
 
     @Column({nullable: true,type:'int', width:1})
     rate : number
-
 }
