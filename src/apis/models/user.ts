@@ -25,6 +25,10 @@ export class User {
     @Column({ nullable: false,unique: true, type: 'varchar', length: 200 })
     email: string;
 
+
+    @Column({type:'datetime', default: ()=>'CURRENT_TIMESTAMP'})
+    createdAt : Date 
+
     @Column({
         type: "enum",
         enum: UserRole,

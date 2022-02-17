@@ -21,10 +21,12 @@ router.post('/createuser',firebaseAuth,async(req:Request,res:Response)=>{
 // clientUserId handymanId
 // query all the tasks of the user and handyman
 router.get('/tasks/clientid/handymanid',async(req:Request,res:Response)=>{
-    const clientUserId = req.body.clientUserId;
-    const handymanUserId = req.body.handymanUserId;
+    const clientUserId = req.query.clientUserId as string
+    const handymanUserId = req.query.handymanUserId as string
     const userController = new UserController();
+    console.log(clientUserId,handymanUserId)
     const tasksAndHandymanAndClient  = await userController.showWhichTasksChargedByHandyman(clientUserId,handymanUserId)
+    console.log(tasksAndHandymanAndClient)
     return res.send(tasksAndHandymanAndClient).status(200)
 })
 
@@ -32,7 +34,7 @@ router.get('/tasks/clientid/handymanid',async(req:Request,res:Response)=>{
 // query all the tasks of the user
 // return the handyman who charges these task
 router.get('/tasks/clientid',async(req:Request,res:Response)=>{
-    const clientUserId = req.body.clientUserId;
+    const clientUserId = req.query.clientUserId as string;
 
     const userController = new UserController();
     const task = await userController.getAllHandymanTasksByClientId(clientUserId);

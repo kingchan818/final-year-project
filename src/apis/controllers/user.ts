@@ -101,7 +101,19 @@ export default class UserController {
             return handyman
         
         }))
-        return handymanRelatedTasks;
+        console.log(handymanRelatedTasks)
+        const handymanMap = new Map()
+        const handymanArray = [] as Handyman []
+        handymanRelatedTasks.forEach(handyman =>{
+            const handymanId = `${handyman?.id}` || "1"
+            
+            if(!handymanMap.get(handymanId)){
+                handymanMap.set(handymanId, handyman)
+                handymanArray.push(handyman!)
+            }
+        })
+
+        return handymanArray;
     }
 
     public async showWhichTasksChargedByHandyman (clientUserId : string, handymanUserId : string) {
@@ -125,7 +137,6 @@ export default class UserController {
                     userId : client
                 },isFinish : true
             },
-            select : ['id','detial','rate'],
             relations : ['handyman','client']
         })
         const whichTaskChargedByHandyman = {

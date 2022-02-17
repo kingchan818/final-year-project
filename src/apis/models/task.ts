@@ -13,6 +13,10 @@ export class Task {
     @Column({nullable: false,type:'boolean',default:false})
     isFinish: boolean
 
+
+    @Column({type:'datetime', default: ()=>'CURRENT_TIMESTAMP'})
+    finishedAt : Date 
+
     @ManyToOne(() => Handyman, handyman=> handyman.tasks )
     @JoinColumn({name:'handyman_user_id'})
     handyman: Handyman
