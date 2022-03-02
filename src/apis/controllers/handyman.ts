@@ -46,6 +46,21 @@ export class HandymanController {
             relations : ['handymans']
         })
     }
+
+    async findAllCommentAboutThisHandyman(id : string){
+        const handymanRepo = connection.getRepository(Handyman)
+        const taskRepo = connection.getRepository(Task)
+        const targetHandyman = await handymanRepo.findOne({
+            where : {
+                userId : id
+            }
+        })
+        const tasks = await taskRepo.find({
+            where : { handyman : targetHandyman!.id, isFinish : true }
+        })
+        return tasks;
+    }
+
     async finishedTask(userId:string,isFinished:any,rate:number,detial:string, handymanInfoId:string){
         const clientRepo = connection.getRepository(Client)
         const handymanRepo = connection.getRepository(Handyman)

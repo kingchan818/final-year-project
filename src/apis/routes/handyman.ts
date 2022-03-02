@@ -38,6 +38,13 @@ router.get('/handyman',firebaseAuth,(req:Request<{},{},{},AuthReturn>,res:Respon
     res.send('hellow world')
 })
 
+router.get('/comments/:id',async(req:Request,res: Response)=>{
+    const id : string  = req.params.id as string
+    const handyman = new HandymanController();
+    const data = await handyman.findAllCommentAboutThisHandyman(id)
+    res.send(data)
+})
+
 router.post('/finishtask',firebaseAuth, async (req:Request<{},{},{},{
     isFinished : boolean,
     rate:number,
