@@ -79,5 +79,17 @@ export class HandymanController {
         const result = await taskRepo.save(task)
         return result        
     }
+    async alterHandymanRatingByTaskId(taskId : number , rating : number){
+        const taskRepo = connection.getRepository(Task);
+
+        const task = await taskRepo.findOne({
+            where : {
+                id : taskId
+            }
+        })
+        task!.rate = rating
+        const savedTask = await taskRepo.save(task!)
+        return savedTask;
+    }
 }
 

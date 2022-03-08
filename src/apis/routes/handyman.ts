@@ -57,10 +57,16 @@ router.post('/finishtask',firebaseAuth, async (req:Request<{},{},{},{
     console.log(handymanInfoId)
 
     const handyman = new HandymanController();
-    const result =   await handyman.finishedTask(user.uid,isFinished,rate,detial,handymanInfoId)
+    const result = await handyman.finishedTask(user.uid,isFinished,rate,detial,handymanInfoId)
     res.send(result)
 })
 
+router.post('/alterrating',async(req:Request<{},{},{},{taskId : number,rating : number}>,res: Response)=>{
+    const {taskId, rating} = req.query
+    const handyman = new HandymanController();
+    const result = await handyman.alterHandymanRatingByTaskId(taskId,rating)
+    res.send(result)
+})
 
 
 export default router

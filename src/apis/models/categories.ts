@@ -5,7 +5,7 @@ import {Handyman} from './handyman'
 @Entity()
 export class Categories {
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
     
     @Column({nullable: false, type:"varchar", length: 200, unique: true})
     detial: string;
