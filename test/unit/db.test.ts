@@ -20,12 +20,10 @@ beforeEach(()=>{
         synchronize: true,
     });
 })
-
 afterEach(()=>{
     let conn = getConnection();
     return conn.close();
 })
-
 describe('User-model',()=>{
     it('Insertion should return a inserted user--client ',async()=>{
         let user = new User()
@@ -107,7 +105,6 @@ describe('Handyman-model👷',()=>{
 
 
 })
-
 describe('Task-model',()=>{
     it('Insertion should return a inserted task ',async()=>{
         const handyman = await getRepository(Handyman).findOne({where:{userId : 'asd!@#Ta2345645432dasd5'}})

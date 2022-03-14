@@ -20,9 +20,18 @@ export default class UserController {
         this.vertifyAndCreateUser = this.vertifyAndCreateUser.bind(this)
         this.createUser = this.createUser.bind(this)
         this.updateUser = this.updateUser.bind(this)
+        this.findUser = this.findUser.bind(this)
+    }
+    async findUser (userId : string) : Promise<User | undefined > {
+        const userRepo = connection.getRepository(User);
+        return userRepo.findOne({
+            where : {
+                id : userId
+            }
+        })
     }
 
-    private async createUser (user:UserReqInterface,name:string,role:UserRole){
+    async createUser (user:UserReqInterface,name:string,role:UserRole){
         const userRepo =  connection.getRepository(User)
         console.log(name)
         const createdUser = await userRepo.save({

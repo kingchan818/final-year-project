@@ -1,12 +1,12 @@
 import express,{Request,Response} from 'express'
 import User from '../controllers/user'
-import {AuthReturn, firebaseAuth} from '../../middlewares/auth'
+import {AuthReturn, firebaseAuth,userBaseAuth} from '../../middlewares/auth'
 import UserController from '../controllers/user'
 const router = express.Router()
 
 
 
-router.post('/vertify',firebaseAuth, async(req:Request<{},{},{role? : string},{}>,res:Response)=>{
+router.post('/vertify',firebaseAuth, userBaseAuth, async(req:Request<{},{},{role? : string},{}>,res:Response)=>{
     res.send('user vertified')
 })
 

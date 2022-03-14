@@ -3,11 +3,28 @@ import firebaseAdmin from 'firebase-admin'
 import {User,UserRole} from '../apis/models/user'
 import {getRepository} from 'typeorm'
 import { connection } from '../settings/db'
+import UserController from '../apis/controllers/user'
 export interface AuthReturn {
     user : string,
     idToken: string
 }
 
+
+export const userBaseAuth = async (req:Request,res:Response ,next:NextFunction)=>{
+    const { user , user_g , id_token}  = res.locals
+    if(!user && !user_g){
+        return res.sendStatus(401)
+    }
+    const userController = new UserController()
+    const userId = user.uid as string
+    const userRole = UserRole.CLIENT
+    const userDetial = await userController.findUser(userId)
+    if(!userDetial){
+        const newUser = await userController.createUser(user,user.username,userRole)
+        return res.send(newUser).status(200)
+    }
+    next()
+}
 
 
 export const firebaseAuth = async (req:Request<{},{},{},any>, res:Response, next:NextFunction) => {
@@ -16,9 +33,11 @@ export const firebaseAuth = async (req:Request<{},{},{},any>, res:Response, next
     try {
         const userJ : object = JSON.parse(user);
         const userInfoFromGoogle = await firebaseAdmin.auth().verifyIdToken(idToken);
+        console.log(userInfoFromGoogle)
         res.locals.user  = userJ;
         res.locals.user_g = userInfoFromGoogle
         res.locals.id_token = idToken
+        console.log(res.locals)
         next();
     } catch (e) {
         res.status(401).send('user is not vertified, please signUp a SSO');
