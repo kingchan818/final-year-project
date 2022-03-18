@@ -7,7 +7,7 @@ const router = express.Router()
 
 
 router.post('/vertify',firebaseAuth, userBaseAuth, async(req:Request<{},{},{role? : string},{}>,res:Response)=>{
-    res.send('user vertified')
+    res.send({user : res.locals.frontEndUser})
 })
 
 router.post('/createuser',firebaseAuth,async(req:Request,res:Response)=>{

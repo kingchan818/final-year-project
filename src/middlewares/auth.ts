@@ -19,6 +19,7 @@ export const userBaseAuth = async (req:Request,res:Response ,next:NextFunction)=
     const userId = user.uid as string
     const userRole = UserRole.CLIENT
     const userDetial = await userController.findUser(userId)
+    res.locals.frontEndUser = userDetial
     if(!userDetial){
         const newUser = await userController.createUser(user,user.username,userRole)
         return res.send(newUser).status(200)
