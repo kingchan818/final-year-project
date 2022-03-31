@@ -1,4 +1,4 @@
-import { Application } from 'express'
+import { Application, Request,Response } from 'express'
 import expressSession from 'express-session'
 import { Server } from 'http'
 import main from '../apis/routes'
@@ -12,6 +12,9 @@ export const route = (app:Application, httpServer : Server)=>{
     app.use(cors({
         origin : '*'
     }))
+    app.use('/test',(req :Request,res : Response)=>{
+        res.json({'message':'hello world!'})
+    })
     websocket(httpServer)
     app.use(sessionMiddleware)
     main(app)
