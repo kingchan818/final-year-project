@@ -9,7 +9,7 @@ import config from 'config'
 
 dotenv.config()
 const app : Application = express()
-const httpServer = createServer(app);
+const httpServer = createServer(app)
 initDB()
 const firebaseConfig = config.get<admin.AppOptions>('firebase')
 admin.initializeApp(firebaseConfig)

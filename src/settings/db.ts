@@ -5,11 +5,11 @@ dotenv.config()
 const connectionManager = new ConnectionManager();
 export const connection = connectionManager.create({
     type: "mysql",
-    host: "localhost",
-    port: 3306,
-    username: "root",
-    password: `${process.env.MYSQL_PASSWORD}`,
-    database: "fyp_test",
+    host: "db-mysql-sgp1-42344-do-user-11147831-0.b.db.ondigitalocean.com",
+    port: 25060,
+    username: "doadmin",
+    password: `${process.env.MYSQL_CLOUD}`,
+    database: "defaultdb",
     entities: [...classArray],
     synchronize: true,
     logging: true,
