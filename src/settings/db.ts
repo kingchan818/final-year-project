@@ -4,7 +4,6 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 const connectionManager = new ConnectionManager();
 
-console.log(process.env.MYSQL_CLOUD)
 export const connection = connectionManager.create({
     type: "mysql",
     host: "db-mysql-sgp1-42344-do-user-11147831-0.b.db.ondigitalocean.com",
