@@ -68,6 +68,8 @@ export class HandymanController {
         const client = await clientRepo.findOne({where : {userId : userId}})
         const handyman = await handymanRepo.findOne({where : {userId : handymanInfoId}})
         if(!client || !handyman){
+            console.log('client or handyman not found',client)
+            console.log('client or handyman not found',handyman)
             throw new Error('Can not found the client or handyman')
         }
         const task = new Task()
