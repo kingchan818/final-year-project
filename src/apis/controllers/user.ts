@@ -2,7 +2,7 @@ import {Request,Response,NextFunction} from 'express'
 import { getRepository,InsertResult } from 'typeorm';
 import {connection} from '../../settings/db'
 import {User, UserRole} from '../models/user'
-import { ClientController } from './client';
+import ClientController from './client';
 import { HandymanController } from './handyman';
 import {Task} from '../models/task'
 import { Handyman } from '../models/handyman';
@@ -37,7 +37,7 @@ export default class UserController {
         const createdUser = await userRepo.save({
             id : user.uid,
             email : user.email,
-            username : name,
+            username : user.username,
             profilePic : user.photoURL,
             isHandyman : role
         })
@@ -53,7 +53,8 @@ export default class UserController {
                 .execute()
     }
 
-    async vertifyAndCreateUser (user : UserReqInterface,name:string,role? : string)  {
+    async vertifyAndCreateUser (user : UserReqInterface, name:string, role? : string)  {
+        console.log('user', user)
         const userRepo =  connection.getRepository(User)
         const found_user = await userRepo.findOne({
             id: user.uid
@@ -61,29 +62,29 @@ export default class UserController {
         if (found_user === undefined || found_user === null) {
             if(role === undefined){
                 console.log('No user role',role)
-                const createdUser = await this.createUser(user,name,UserRole.CLIENT)
+                const createdUser = await this.createUser(user,user.username,UserRole.CLIENT)
                 console.log('created User',createdUser)
                 const createClient = await this.client.createClient(createdUser)
                 console.log(createClient)
-                return createdUser;
+                return {createClient, type : 'CLIENT_CREATION '};
             }
             else if(role === 'handyman'){
                 console.log('triggle hanyman')
-                const createdUser = await this.createUser(user,name,UserRole.HANDYMAN)
-                const createHanyman = await this.handyman.createHandyman(createdUser)
-                console.log(createHanyman)
-                return createdUser;
+                const createdUser = await this.createUser(user,user.username,UserRole.HANDYMAN)
+                const createdHanyman = await this.handyman.createHandyman(createdUser)
+                console.log('created hanyman',createdHanyman)
+                return {createdHanyman, type : 'HANDYMAN_CREATION '};
             }
             else if(role === 'client'){
                 console.log('triggle client')
-                const createdUser = await this.createUser(user,name,UserRole.CLIENT)
+                const createdUser = await this.createUser(user,user.username,UserRole.CLIENT)
                 const createClient = await this.client.createClient(createdUser)
                 console.log(createClient)
-                return createdUser;
+                return {createClient, type : 'CLIENT_CREATION '}
             }
         }else{
             this.updateUser(user,name)
-            return found_user;
+            return {found_user, type : 'USER_UPDATE '};
         }
     }
     public async getAllHandymanTasksByClientId  (clientUserId : string) {

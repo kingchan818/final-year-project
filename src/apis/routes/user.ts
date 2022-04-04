@@ -6,17 +6,17 @@ const router = express.Router()
 
 
 
-router.post('/vertify',firebaseAuth, userBaseAuth, async(req:Request<{},{},{role? : string},{}>,res:Response)=>{
+router.post('/vertify',firebaseAuth,userBaseAuth, async(req:Request<{},{},{role? : string},{}>,res:Response)=>{
     res.send({user : res.locals.frontEndUser})
 })
 
 router.post('/createuser',firebaseAuth,async(req:Request,res:Response)=>{
+    console.log('USER', res.locals.user)
     const name = res.locals.user.username
     const role = res.locals.user.role
-    console.log('createROle',role)
-    const newUser = new User()
-    const user = await newUser.vertifyAndCreateUser(res.locals.user,name,role)
-    return res.send(user).status(200)
+    const userController = new UserController()
+    const user = await userController.vertifyAndCreateUser(res.locals.user,name,role)
+    return res.send(user)
 })
 // clientUserId handymanId
 // query all the tasks of the user and handyman

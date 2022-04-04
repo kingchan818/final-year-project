@@ -65,6 +65,8 @@ export class HandymanController {
         const clientRepo = connection.getRepository(Client)
         const handymanRepo = connection.getRepository(Handyman)
         const taskRepo = connection.getRepository(Task)
+        console.log('userId',userId)
+        console.log('userId',handymanInfoId)
         const client = await clientRepo.findOne({where : {userId : userId}})
         const handyman = await handymanRepo.findOne({where : {userId : handymanInfoId}})
         if(!client || !handyman){

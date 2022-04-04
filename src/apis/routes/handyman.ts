@@ -5,8 +5,10 @@ const router = express.Router()
 
 
 router.post('/register',firebaseAuth,async (req:Request,res:Response)=>{
+    console.log('trigger ')
     const cat =  res.locals.user.selectedCategories
     const userId = res.locals.user.uid
+
     const handyman = new HandymanController();
     const handymans = await handyman.createHandymanByCategories(userId,cat)
     console.log(handymans)

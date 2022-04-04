@@ -1,7 +1,7 @@
 import {connection} from '../../settings/db'
 import {User} from '../models/user'
 import {Client} from '../models/client'
-export class ClientController {
+export default class ClientController {
     constructor(){
         this.createClient = this.createClient.bind(this)
     }
