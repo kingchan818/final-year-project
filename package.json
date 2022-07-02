@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node dist/src/settings/index.js",
     "dev": "nodemon src/settings/index.ts",
+    "start-websocket": "nodemon src/webSocket/test.ts",
     "build": "tsc -p .",
     "test": "jest -c ./jest.unit.json"
   },
@@ -21,7 +22,12 @@
     "express-session": "^1.17.2",
     "firebase": "^9.6.2",
     "firebase-admin": "^10.0.1",
+    "i": "^0.3.7",
+    "ioredis": "^5.1.0",
+    "moment": "^2.29.3",
     "mysql2": "^2.3.3",
+    "npm": "^8.13.2",
+    "redis": "^4.1.1",
     "socket.io": "^4.4.0",
     "typeorm": "^0.2.41"
   },
