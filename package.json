@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@socket.io/admin-ui": "^0.4.0",
     "@types/cors": "^2.8.12",
     "config": "^3.3.7",
     "cors": "^2.8.5",
@@ -28,7 +29,7 @@
     "mysql2": "^2.3.3",
     "npm": "^8.13.2",
     "redis": "^4.1.1",
-    "socket.io": "^4.4.0",
+    "socket.io": "^4.5.1",
     "typeorm": "^0.2.41"
   },
   "devDependencies": {
