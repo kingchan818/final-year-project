@@ -9,7 +9,7 @@ export const connection = connectionManager.create({
     host: 'static.filminal.io',
     port: 3306,
     username: 'calvin',
-    password: `${process.env.MYSQL_CLOUD}`,
+    password: `${process.env.MYSQL_PASSWORD}`,
     database: 'defaultdb',
     entities: [...classArray],
     synchronize: true,
