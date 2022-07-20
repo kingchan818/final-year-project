@@ -6,3 +6,5 @@ node_modules
 models_ddd
 dist
 *config
+docker-compose.yaml
+dockerfile
